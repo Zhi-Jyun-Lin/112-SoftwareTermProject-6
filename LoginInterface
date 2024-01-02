@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginInterface {
 
@@ -33,19 +35,34 @@ public class LoginInterface {
         frame.getContentPane().add(panel);
         frame.setVisible(true);
 
+        Map<String, String> registeredUsers = new HashMap<>();
+
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String username = usernameTextField.getText();
                 String password = new String(passwordField.getPassword());
-                // Implement login logic here
+
+                if (registeredUsers.containsKey(username) && registeredUsers.get(username).equals(password)) {
+                    JOptionPane.showMessageDialog(frame, "Login Successful");
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Invalid Username or Password");
+                }
             }
         });
 
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implement registration logic here
+                String username = JOptionPane.showInputDialog(frame, "Enter your username:");
+                String password = JOptionPane.showInputDialog(frame, "Enter your password:");
+
+                if (registeredUsers.containsKey(username)) {
+                    JOptionPane.showMessageDialog(frame, "Username already exists.");
+                } else {
+                    registeredUsers.put(username, password);
+                    JOptionPane.showMessageDialog(frame, "Account registered for " + username);
+                }
             }
         });
     }
